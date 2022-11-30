@@ -1,22 +1,38 @@
+import java.util.Random;
+
 public class ElasticERL {
 
-    private int key;
-    private String value;
     private int size;
-
-    public ElasticERL(int size){
-
-    }
-
+    
     public void SetEINThreshold(int size){
-        if (100 <= size && size <= 500000)
+        if (100 <= size && size < 10000)
+        {
+
+        }
+        else if(10000 <= size && size < 100000)
+        {
+
+        }
+        else if (size <= 100000 && size <= 500000)
         {
             this.size = size;
+            Large hashTable = new Large(size);
         }
+        else
+            System.out.println("Invalid size.");
     }
 
     public void generate(){
+        Random rand = new Random();
 
+        int k = rand.nextInt(9000000) + 1000000;
+
+        while (allKeys(this) == null)
+        {
+            k = rand.nextInt(9000000) + 1000000;
+        }
+        
+        System.out.println("Unique key generated: " + k);
     }
 
     public int[] allKeys(ElasticERL e){
