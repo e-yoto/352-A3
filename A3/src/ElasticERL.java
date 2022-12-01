@@ -1,8 +1,20 @@
+import java.util.Hashtable;
 import java.util.Random;
 
 public class ElasticERL {
 
     private int size;
+    ElasticERL smallErl;
+    ElasticERL mediumErl;
+    ElasticERL largeErl;
+    
+    public ElasticERL(){
+        
+    }
+
+    public ElasticERL(int size){
+        SetEINThreshold(size);
+    }
     
     public void SetEINThreshold(int size){
         if (100 <= size && size < 10000)
@@ -16,7 +28,7 @@ public class ElasticERL {
         else if (size <= 100000 && size <= 500000)
         {
             this.size = size;
-            Large hashTable = new Large(size);
+            largeErl = new Large(size);
         }
         else
             System.out.println("Invalid size.");
@@ -52,11 +64,11 @@ public class ElasticERL {
 
     }
 
-    public int nextKey( ElasticERL e, int key){
+    public int nextKey(ElasticERL e, int key){
         return -100;
     }
 
-    public int prevKey(ElasticERL e , int key){
+    public int prevKey(ElasticERL e, int key){
         return -100;
     }
 

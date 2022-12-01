@@ -7,10 +7,11 @@ public class Large extends ElasticERL {
     private int size = 0;
     
     public Large(int size){
-        HashNode<Integer, String>[] table = new HashNode[size];
+        super();
+        table = new HashNode[size];
     }
 
-    public void put(int key, String value){
+    public void add(int key, String value){
         HashNode<Integer, String> newNode = new HashNode<Integer,String>(key, value, null, null);
         int bucket = newNode.key % this.size;
 
@@ -24,9 +25,11 @@ public class Large extends ElasticERL {
         }
         else
         {
-            HashNode<Integer, String> temp = newNode;
-            tail.next = temp;
+            HashNode<Integer, String> temp = tail;
+            tail.next = newNode;
+            tail.prev = temp;
             tail = tail.next;
+            
             size++;
         }
     }
