@@ -1,5 +1,7 @@
 import java.rmi.server.ExportException;
 
+import javax.xml.transform.Source;
+
 public class Large extends ElasticERL {
     
     //HashTable with Chaining
@@ -27,7 +29,11 @@ public class Large extends ElasticERL {
             System.out.println("TRAVERSIN " + existingNode.key); 
             //overwrite if key exists
             if (existingNode.key == key)
+            {
                 existingNode.value = value;
+                return;
+            }
+                
 
             existingNode = existingNode.next;
         }
@@ -39,7 +45,7 @@ public class Large extends ElasticERL {
             existingNode.prev = newNode;
         }
         table[bucket] = newNode;
-        System.out.println("JUST ADDED " + newNode.key); 
+        System.out.println("JUST ADDED " + newNode.key + " " + newNode.value); 
 
         // if (existingNode == null)
         // {
@@ -93,7 +99,7 @@ public class Large extends ElasticERL {
                 temp.next = null;
                 table[bucket] = h;
                 
-                System.out.println("temp : " + temp.key);
+                System.out.println("temp : " + temp.key + " " + temp.value);
                 System.out.println("h: " + h.key);
                 System.out.println("h next: " + h.next.key);
 
@@ -130,9 +136,12 @@ public class Large extends ElasticERL {
             }
             else
             {
+                System.out.println("temp : " + temp.key);
+                System.out.println("h: " + h.key);
                 System.out.println("case2");
-                h = null;
-                temp.next = null;
+                h = h.prev;
+                h.next = null;
+                temp = null;
             }
         }
 
@@ -156,6 +165,75 @@ public class Large extends ElasticERL {
         
         
         return null;
+    }
+
+    public String getValue(int key)
+    {
+        int bucket = key % this.size;
+        HashNode<Integer, String> h = table[bucket];
+        System.out.println("BUCKETTTT: " + bucket);
+        System.out.println(h.value);
+        do 
+        {
+            if (h.key == key)
+            {
+                return h.value;
+            }
+        } 
+        while (h.next != null); 
+        {
+            System.out.println("H VALUE " + h.value);
+            if (h.key == key)
+            {
+                return h.value;
+            }
+            h = h.next;
+        }
+
+        return "Not found";
+    }
+
+    public int nextKey(int key)
+    {
+        int bucket = key % this.size;
+        HashNode<Integer, String> h = table[bucket];
+
+
+        System.out.println(h.key);
+        System.out.println(h.next.key);
+
+        while (h.next != null)
+        {
+            if (h.key == key)
+            {
+                
+            }
+        }
+
+        return -2;
+    }
+
+    public int prevKey(int key)
+    {
+        int bucket = key % this.size;
+        HashNode<Integer, String> h = table[bucket];
+
+        if (h.key == key)
+        {
+            //first in the bucket, there is no previous
+            return -1;
+        }
+            
+
+        while (h != null)
+        {
+            if (h.key == key)
+                return h.prev.key;
+            
+            h = h.next;
+        }
+
+        return -2;
     }
 
     public void listAll(){

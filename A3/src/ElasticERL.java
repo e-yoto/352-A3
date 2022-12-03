@@ -60,7 +60,6 @@ public class ElasticERL {
 
     public int[] getValues(ElasticERL e, int key){
         return null;
-
     }
 
     public int nextKey(ElasticERL e, int key){
