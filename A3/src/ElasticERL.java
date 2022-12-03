@@ -18,11 +18,11 @@ public class ElasticERL {
     public void SetEINThreshold(int size){
         if (100 <= size && size < 10000)
         {
-
+            //small
         }
         else if(10000 <= size && size < 100000)
         {
-
+            //medium
         }
         else if (size <= 100000 && size <= 500000)
         {

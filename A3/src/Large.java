@@ -1,10 +1,12 @@
+import java.rmi.server.ExportException;
+
 public class Large extends ElasticERL {
     
     //HashTable with Chaining
     
     private HashNode<Integer, String>[] table;
-    private HashNode<Integer, String> tail;
-    private HashNode<Integer, String> head;
+    // private HashNode<Integer, String> tail;
+    // private HashNode<Integer, String> head;
     private int size = 0;
     
     public Large(int size){
@@ -19,20 +21,43 @@ public class Large extends ElasticERL {
 
         HashNode<Integer, String> existingNode = table[bucket];
         System.out.println("bucket: " + bucket);
-        if (existingNode == null)
+
+        while (existingNode != null)
         {
-            table[bucket] = newNode;
-            tail = newNode;
-            head = newNode;
+            System.out.println("TRAVERSIN " + existingNode.key); 
+            //overwrite if key exists
+            if (existingNode.key == key)
+                existingNode.value = value;
+
+            existingNode = existingNode.next;
+        }
+        
+        existingNode = table[bucket];
+        newNode.next = existingNode;
+        if (existingNode != null)
+        {
+            existingNode.prev = newNode;
+        }
+        table[bucket] = newNode;
+        System.out.println("JUST ADDED " + newNode.key); 
+
+        // if (existingNode == null)
+        // {
+        //     table[bucket] = newNode;
+        //     tail = newNode;
+        //     head = newNode;
             
-        }
-        else
-        {
-            HashNode<Integer, String> temp = tail;
-            tail.next = newNode;
-            tail.prev = temp;
-            tail = tail.next;
-        }
+        // }
+        // else
+        // {
+        //     HashNode<Integer, String> temp = tail;
+        //     System.out.println("current " + newNode.key + " PREVKEY " + tail.key);
+        //     tail.next = newNode;
+        //     newNode.prev = tail;
+        //     tail = tail.next;
+        //     tail.prev = temp;
+            
+        // }
     }
 
     public void remove (int key)
@@ -43,33 +68,72 @@ public class Large extends ElasticERL {
 
         while (h.next != null)
         {
-            System.out.println("augh" + temp.key + " " + temp.value);
             if (h.key == key)
             {
                 break;
             }
             
             //else keep moving
-            temp = head;
-            
+            temp = h;
+
             h = h.next;
-            
         }
 
         if (h != null)
         {
             
-            System.out.println("removing: " + temp.key + ", " + temp.value);
-            if (h.prev != null)
+            System.out.println("removing: " + h.key + ", " + h.value);
+            if (h.next != null && h.prev == null)
             {
-                h.next = head.next;
+                System.out.println("temp : " + temp.key);
+                System.out.println("h: " + h.key);
+                System.out.println("h next: " + h.next.key);
+                System.out.println("case0");
+                h = h.next;
+                temp.next = null;
+                table[bucket] = h;
+                
+                System.out.println("temp : " + temp.key);
+                System.out.println("h: " + h.key);
+                System.out.println("h next: " + h.next.key);
+
+                // System.out.println("temp : " + temp.key);
+                // System.out.println("h: " + h.key);
+
+                // h.next.prev = temp.prev;
+                // h.prev.next = temp.next;
+                // h = h.next;
+
+                // temp.next = null;
+                // temp.prev = null;
+            }
+            else if (h.next != null)
+            {
+                System.out.println("temp : " + temp.key);
+                System.out.println("h: " + h.key);
+                System.out.println("h next: " + h.next.key);
+                System.out.println("case1");
+                temp = h.prev;
+                h = h.next;
+
+                temp.next = h;
+
+                // System.out.println("temp : " + temp.key);
+                // System.out.println("h: " + h.key);
+
+                // h.next.prev = temp.prev;
+                // h.prev.next = temp.next;
+                // h = h.next;
+
+                // temp.next = null;
+                // temp.prev = null;
             }
             else
             {
-                h = h.next;
-                temp = null;
+                System.out.println("case2");
+                h = null;
+                temp.next = null;
             }
-            size--;
         }
 
     }
@@ -77,16 +141,21 @@ public class Large extends ElasticERL {
     public HashNode<Integer, String> get(int key)
     {
         int bucket = key % this.size;
-
         HashNode<Integer, String> h = table[bucket];
-        if (h.key == key)
+        
+
+        while (h != null) 
         {
-            return h;
+            if (h.key == key )
+            {
+                return h;
+            }
+                
+            h = h.next;
         }
-        else
-        {
-            return null;
-        }
+        
+        
+        return null;
     }
 
     public void listAll(){

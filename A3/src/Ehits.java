@@ -13,7 +13,7 @@ public class Ehits {
 
         HashNode<Integer, String> h = l.get(0);
         //System.out.println("GOT: " + h.key + " " +  h.value);
-        l.remove(13240013);
+        l.remove(23240013);
         l.listAll();
     }
 }
