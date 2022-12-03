@@ -40,11 +40,36 @@ public class Large extends ElasticERL {
         int bucket = key % this.size;
         HashNode<Integer, String> h = get(key);
         HashNode<Integer, String> temp = h;
-        while (head.next != null)
+
+        while (h.next != null)
         {
-            head = head.next;
-            System.out.println(temp.key + " " + temp.value);
+            System.out.println("augh" + temp.key + " " + temp.value);
+            if (h.key == key)
+            {
+                break;
+            }
+            
+            //else keep moving
+            temp = head;
+            
             h = h.next;
+            
+        }
+
+        if (h != null)
+        {
+            
+            System.out.println("removing: " + temp.key + ", " + temp.value);
+            if (h.prev != null)
+            {
+                h.next = head.next;
+            }
+            else
+            {
+                h = h.next;
+                temp = null;
+            }
+            size--;
         }
 
     }
@@ -69,7 +94,7 @@ public class Large extends ElasticERL {
         {
             if (h == null)
             {
-                return;
+                continue;
             }
 
             System.out.println(h.key + " " + h.value);
