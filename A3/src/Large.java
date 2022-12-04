@@ -241,7 +241,7 @@ public class Large extends ElasticERL {
             HashNode<Integer, String> h = table[k1 % this.size];
             HashNode<Integer, String> first = null;
             HashNode<Integer, String> second = null;
-            Medium<Integer, String> list = new Medium<>();
+            Small<Integer, String> list = new Small<>();
 
             //find which comes first
             while (h != null)

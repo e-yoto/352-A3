@@ -1,93 +1,125 @@
-public class Medium<Integer, String> extends ElasticERL implements MyList<Integer, String> {
-    private Node<Integer, String> head;
-    private Node<Integer, String> tail;
-    private int size;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+public class Medium extends ElasticERL{
+
+    //Heap
+
+    private int[] heap;
+    private int heapSize;
+
+    public Medium(int capacity)
+    {
+        heapSize = 0;
+        heap = new int[ capacity+1];
+        Arrays.fill(heap, -1);
+    }
     
-    public Medium() {
-        head = null;
-        tail = null;
-    }
-
-    @Override
-    public int get(int index) 
+    public boolean isEmpty()
     {
-        
-        Node<Integer, String> current = head;
-        int i = 0;
-        while (i < index)
-        {
-            current = current.next;
-            i++;
-        }
-        return current.key;
+        return heapSize==0;
     }
 
-    @Override
-    public void set(int index, int key, String value) {
-        Node<Integer, String> current = head;
-        for (int i = 0; i < index; i++)
-        {
-            current = current.next;
-        }
-        current.key = key;
-        current.value = value;     
+    public boolean isFull()
+    {
+        return heapSize == heap.length;
     }
 
-    @Override
-    public void add(int index, int key, String value) {
-        if(index <= 0)
+    private int parent(int i)
+    {
+        return (i-1)/2;
+    }
+
+    private int kthChild(int i,int k)
+    {
+        return 2*i  +k;
+    }
+
+    public void insert(int x)
+    {
+        if(isFull())
         {
-            addFirst(key,value);
+            throw new NoSuchElementException("Heap is full, No space to insert new element");
         }
-        else if (index >= size)
-        {
-            addLast(key,value);
-        } 
-        else
-        {
-            Node<Integer, String> current = head;
             
-            for (int i = 1; i < index; i++)
+        heap[heapSize++] = x;
+        heapifyUp(heapSize-1);
+    }
+
+    public int delete(int x)
+    {
+        if(isEmpty())
+        {
+            throw new NoSuchElementException("Heap is empty, No element to delete");
+        }
+            
+        int key = heap[x];
+        heap[x] = heap[heapSize -1];
+        heapSize--;
+        heapifyDown(x);
+        return key;
+    }
+
+    private void heapifyUp(int i) 
+    {
+        int temp = heap[i];
+        while(i>0 && temp > heap[parent(i)])
+        {
+            heap[i] = heap[parent(i)];
+            i = parent(i);
+        }
+        heap[i] = temp;
+    }
+
+    private void heapifyDown(int i)
+    {
+        int child;
+        int temp = heap[i];
+
+        while(kthChild(i, 1) < heapSize)
+        {
+            child = maxChild(i);
+            if(temp < heap[child])
             {
-                current = current.next;
+                heap[i] = heap[child]; 
             }
-            Node<Integer, String> tmp = current.next;
-            current.next = new Node<Integer, String>(key, value);
-            (current.next).next = tmp;
-            size++;
+            else break; 
+            i = child; 
         }
-    }
-
-    public void addFirst(int key, String value)
-    {
-        Node<Integer, String> newNode = new Node<>(key, value);
-        newNode.next = head;
-        head = newNode;
-        size++;
-        if (tail == null)
+        
+        heap[i] = temp; 
+    } 
+            
+    private int maxChild(int i) 
+    { 
+        int leftChild = kthChild(i, 1);
+        int rightChild = kthChild(i, 2); 
+        
+        if (heap[leftChild] > heap[rightChild])
         {
-            tail = head;
-        }
-    }
-
-    public void addLast(int key, String value)
-    {
-        Node<Integer, String> newNode = new Node<Integer, String>(key, value);
-        if (tail == null)
-        {
-            head = tail = newNode;
+            return leftChild;
         }
         else
         {
-            tail.next = newNode;
-            tail = tail.next;
-            
+            return rightChild;
         }
-        size++;
-    }
-    @Override
-    public int size() {
-        return size;
     }
 
+    public void printHeap()
+    {
+        System.out.print("nHeap = ");
+
+        for (int i = 0; i < heapSize; i++)
+            System.out.print(heap[i] +" ");
+    }
+
+    public int findMax()
+    {
+        if(isEmpty())
+        {
+            throw new NoSuchElementException("Heap is empty.");
+        }
+        
+        return heap[0];
+    }
 }
