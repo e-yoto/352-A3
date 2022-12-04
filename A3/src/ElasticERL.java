@@ -70,7 +70,7 @@ public class ElasticERL {
         return -100;
     }
 
-    public int rangeKey(int key1, int key2){
-        return -100;
+    public int[] rangeKey(int key1, int key2){
+        return null;
     }
 }

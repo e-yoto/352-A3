@@ -1,14 +1,8 @@
-import java.rmi.server.ExportException;
-
-import javax.xml.transform.Source;
-
 public class Large extends ElasticERL {
     
     //HashTable with Chaining
     
     private HashNode<Integer, String>[] table;
-    // private HashNode<Integer, String> tail;
-    // private HashNode<Integer, String> head;
     private int size = 0;
     
     public Large(int size){
@@ -199,15 +193,16 @@ public class Large extends ElasticERL {
         HashNode<Integer, String> h = table[bucket];
 
 
-        System.out.println(h.key);
-        System.out.println(h.next.key);
+        System.out.println("current key: " + h.key);
+        System.out.println("next key: " + h.next.key);
 
         while (h.next != null)
         {
             if (h.key == key)
             {
-                
+                return h.next.key;
             }
+            h = h.next;
         }
 
         return -2;
@@ -224,7 +219,6 @@ public class Large extends ElasticERL {
             return -1;
         }
             
-
         while (h != null)
         {
             if (h.key == key)
@@ -234,6 +228,43 @@ public class Large extends ElasticERL {
         }
 
         return -2;
+    }
+
+    public int[] rangeKey(int k1, int k2)
+    {
+
+
+        if (k1 % this.size != k2 % this.size)
+            return null;
+        else
+        {
+            HashNode<Integer, String> h = table[k1 % this.size];
+            HashNode<Integer, String> first = null;
+            HashNode<Integer, String> second = null;
+            Medium<Integer, String> list = new Medium<>();
+
+            //find which comes first
+            while (h != null)
+            {
+                if (h.key == k1 || h.key == k2)
+                {
+                    first = h;
+                    break;
+                }
+                h = h.next;
+            }
+
+            second = first.next;
+
+            while (second != null)
+            {
+                //second.value;
+                
+                second = second.next;
+            }
+
+            return null;
+        }
     }
 
     public void listAll(){

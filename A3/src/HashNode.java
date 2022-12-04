@@ -13,6 +13,4 @@ public class HashNode<Integer, Val>{
         this.prev = prev;
         this.next = next;
     }
-
-    
 }
