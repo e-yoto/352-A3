@@ -8,10 +8,10 @@ public class Medium extends ElasticERL{
     private int[] heap;
     private int heapSize;
 
-    public Medium(int capacity)
+    public Medium(int size)
     {
         heapSize = 0;
-        heap = new int[ capacity+1];
+        heap = new int[ size+1];
         Arrays.fill(heap, -1);
     }
     

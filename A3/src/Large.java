@@ -4,6 +4,7 @@ public class Large extends ElasticERL {
     
     private HashNode<Integer, String>[] table;
     private int size = 0;
+
     
     public Large(int size){
         super();
@@ -171,6 +172,7 @@ public class Large extends ElasticERL {
         {
             if (h.key == key)
             {
+                System.out.println("da value " + h.value);
                 return h.value;
             }
         } 
@@ -232,8 +234,6 @@ public class Large extends ElasticERL {
 
     public int[] rangeKey(int k1, int k2)
     {
-
-
         if (k1 % this.size != k2 % this.size)
             return null;
         else
@@ -258,12 +258,21 @@ public class Large extends ElasticERL {
 
             while (second != null)
             {
+                System.out.println("RANGEKEY " + second.key);
                 //second.value;
-                
+                if (second.key == k2)
+                    break;
+                list.addLast(second.key, second.value);
                 second = second.next;
             }
 
-            return null;
+            int[] a = new int[list.size()];
+            for (int i = 0; i < list.size(); i++)
+            {
+                a[i] = list.get(i);
+            }
+
+            return a;
         }
     }
 

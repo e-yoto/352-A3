@@ -3,12 +3,17 @@ import java.util.Random;
 public class ElasticERL {
 
     private int size;
-    ElasticERL smallErl;
-    ElasticERL mediumErl;
-    ElasticERL largeErl;
+    
+    private int ERL_TYPE;
+    final int SIZE_SMALL = 1;
+    final int SIZE_MEDIUM = 2;
+    final int SIZE_LARGE = 3;
+
+    Small<Integer, String> smallErl;
+    Medium mediumErl;
+    Large largeErl;
     
     public ElasticERL(){
-        
     }
 
     public ElasticERL(int size){
@@ -16,17 +21,22 @@ public class ElasticERL {
     }
     
     public void SetEINThreshold(int size){
-        if (100 <= size && size < 10000)
+        this.size = size;
+        if (size >= 0 && size < 100)
         {
             //small
+            ERL_TYPE = SIZE_SMALL;
+            smallErl = new Small<>(size);
         }
-        else if(10000 <= size && size < 100000)
+        else if(size >= 100 && size < 500000)
         {
             //medium
+            ERL_TYPE = SIZE_MEDIUM;
+            mediumErl = new Medium(size);
         }
-        else if (size <= 100000 && size <= 500000)
+        else if (size >= 500000)
         {
-            this.size = size;
+            ERL_TYPE = SIZE_LARGE;
             largeErl = new Large(size);
         }
         else
@@ -47,30 +57,129 @@ public class ElasticERL {
     }
 
     public int[] allKeys(ElasticERL e){
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                // code block
+                break;
+        }
         return null;
     }
 
     public void add(ElasticERL e, int key, String value){
-        
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                largeErl.add(key, value);
+                break;
+        }
     }
 
     public void remove(ElasticERL e, int key){
-
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                largeErl.remove(key);
+                break;
+        }
     }
 
-    public int[] getValues(ElasticERL e, int key){
+    public String getValues(ElasticERL e, int key){
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                return largeErl.getValue(key);
+        }
+
         return null;
     }
 
     public int nextKey(ElasticERL e, int key){
-        return -100;
+        int k = -1;
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                k =largeErl.nextKey(key);
+                break;
+        }
+        return k;
     }
 
     public int prevKey(ElasticERL e, int key){
-        return -100;
+        int k = -1;
+        switch(e.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                k = largeErl.prevKey(key);
+                break;
+        }
+        return k;
     }
 
     public int[] rangeKey(int key1, int key2){
+        
+        switch(this.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                return largeErl.rangeKey(key1, key2);
+        }
         return null;
+    }
+
+    public void listAll(ElasticERL e){
+        switch(this.ERL_TYPE) 
+        {
+            case SIZE_SMALL:
+                // code block
+                break;
+            case SIZE_MEDIUM:
+                // code block
+                break;
+            case SIZE_LARGE:
+                largeErl.listAll();
+                break;
+        }
     }
 }

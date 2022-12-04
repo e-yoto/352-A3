@@ -11,6 +11,12 @@ public class Small<Integer, String> extends ElasticERL{
         tail = null;
     }
 
+    public Small(int size) {
+        head = null;
+        tail = null;
+        this.size = size;
+    }
+
     public int get(int index) 
     {
         
@@ -86,7 +92,7 @@ public class Small<Integer, String> extends ElasticERL{
         size++;
     }
     
-    
+
     public int size() {
         return size;
     }
