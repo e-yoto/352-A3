@@ -1,5 +1,5 @@
 public class MediumNew extends ElasticERL{ 
-    //node class that defines BST node
+    //node class
     class TreeNode { 
         int key;
         String value; 
@@ -16,16 +16,16 @@ public class MediumNew extends ElasticERL{
     TreeNode root; 
   
    // Constructor for BST =>initial empty tree
-    MediumNew(){ 
+    public MediumNew(){ 
         root = null; 
     } 
     //delete a node from BST
-    void deleteKey(int key) { 
+    public void deleteKey(int key) { 
         root = delete_Recursive(root, key); 
     } 
    
     //recursive delete function
-    TreeNode delete_Recursive(TreeNode root, int key)  { 
+    public TreeNode delete_Recursive(TreeNode root, int key)  { 
         //tree is empty
         if (root == null)  return root; 
    
@@ -51,7 +51,7 @@ public class MediumNew extends ElasticERL{
         return root; 
     } 
    
-    int minValue(TreeNode root)  { 
+    public int minValue(TreeNode root)  { 
         //initially minval = root
         int minval = root.key; 
         //find minval
@@ -63,12 +63,12 @@ public class MediumNew extends ElasticERL{
     } 
    
     // insert a node in BST 
-    void insert(int key, String value)  { 
+    public void insert(int key, String value)  { 
         root = insert_Recursive(root, key, value); 
     } 
    
     //recursive insert function
-    TreeNode insert_Recursive(TreeNode root, int key, String value) { 
+    public TreeNode insert_Recursive(TreeNode root, int key, String value) { 
           //tree is empty
         if (root == null) { 
             root = new TreeNode(key, value); 
@@ -82,24 +82,87 @@ public class MediumNew extends ElasticERL{
           // return pointer
         return root; 
     } 
+
+    //return next key
+    public int nextKey(int key)
+    {
+        TreeNode temp = root;
+        temp = search_Recursive(root, key);
+
+        return temp.right.key;
+    }
+
+    //return previous key
+    public int prevKey(int key)
+    {
+        TreeNode temp = root;
+        temp = search_Recursive(root, key);
+
+        return temp.left.key;
+    }
  
     //inorder traversal of BST 
-    void inorder() { 
+    public void inorder() { 
         inorder_Recursive(root); 
     }
    
     // recursively traverse the BST  
-    void inorder_Recursive(TreeNode root) { 
+    public void inorder_Recursive(TreeNode root) { 
         if (root != null) { 
             inorder_Recursive(root.left); 
             System.out.print(root.key + " - "+ root.value + " | "); 
             inorder_Recursive(root.right); 
         } 
     } 
+
+    //find keys within range of k1 and k2
+    public int[] rangeKey(int k1, int k2)
+    {
+        TreeNode temp = root;
+        
+        if (k1 < k2)
+        {
+            temp = search_Recursive(root, k1);
+            System.out.println("range " + temp.key);
+            return rangeKey_Second(temp, k2);
+        }
+        else
+        {
+            temp = search_Recursive(root, k2);
+            System.out.println("range " + temp.key);
+            return rangeKey_Second(temp, k1);
+        }
+
+    }
+    public int[] rangeKey_Second(TreeNode root, int key)  { 
+        Small<Integer, String> list = new Small<>();
+        
+        while (root != null)
+        {
+            System.out.println("range currently at " + root.key);
+            if (root.key > key) 
+            {
+                list.addLast(root.key, root.value);
+                root = root.left;
+            }
+            else
+            {
+                list.addLast(root.key, root.value);
+                root = root.right;
+            }
+        }
+        
+        int[] a = new int[list.size()];
+        for (int i = 0; i < list.size(); i++)
+        {
+            a[i] = list.get(i).key;
+        }
+
+        return a;
+     } 
      
-    String search(int key)  { 
+    public String search(int key)  { 
         root = search_Recursive(root, key); 
-        System.out.println("eeee: "+root.value);
         if (root!= null)
             return root.value;
         else
@@ -107,13 +170,10 @@ public class MediumNew extends ElasticERL{
     } 
    
     //recursive insert function
-    TreeNode search_Recursive(TreeNode root, int key)  { 
+    public TreeNode search_Recursive(TreeNode root, int key)  { 
         // Base Cases: root is null or key is present at root 
         if (root==null || root.key==key) 
-        {
-            System.out.println("FOUNDDD" + root.value);
             return root; 
-        }
             
         // val is greater than root's key 
         if (root.key > key) 

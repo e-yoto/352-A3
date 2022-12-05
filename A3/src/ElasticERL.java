@@ -27,19 +27,25 @@ public class ElasticERL {
         if (size >= 0 && size < 100)
         {
             //small
+            System.out.println("Creating Small ADT");
             ERL_TYPE = SIZE_SMALL;
             smallErl = new Small<>(size);
+            size++;
         }
         else if(size >= 100 && size < 500000)
         {
             //medium
+            System.out.println("Creating Medium ADT");
             ERL_TYPE = SIZE_MEDIUM;
             mediumErl = new MediumNew();
+            size++;
         }
         else if (size >= 500000)
         {
+            System.out.println("Creating Large ADT");
             ERL_TYPE = SIZE_LARGE;
             largeErl = new Large(size);
+            size++;
         }
         else
             System.out.println("Invalid size.");
@@ -49,13 +55,8 @@ public class ElasticERL {
         Random rand = new Random();
 
         int k = rand.nextInt(9000000) + 1000000;
-
-        while (allKeys(this) == null)
-        {
-            k = rand.nextInt(9000000) + 1000000;
-        }
         
-        System.out.println("Unique key generated: " + k);
+        System.out.println("Key generated: " + k);
     }
 
     public int[] allKeys(ElasticERL e){
@@ -78,7 +79,7 @@ public class ElasticERL {
         switch(e.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
+                smallErl.addLast(key, value);
                 break;
             case SIZE_MEDIUM:
                 mediumErl.insert(key, value);
@@ -93,10 +94,10 @@ public class ElasticERL {
         switch(e.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
+                smallErl.remove(key);
                 break;
             case SIZE_MEDIUM:
-                // code block
+                mediumErl.remove(e, key);
                 break;
             case SIZE_LARGE:
                 largeErl.remove(key);
@@ -111,7 +112,7 @@ public class ElasticERL {
                 // code block
                 break;
             case SIZE_MEDIUM:
-                //mediumErl.inorder();
+                
                 return mediumErl.search(key);
             case SIZE_LARGE:
                 return largeErl.getValue(key);
@@ -125,10 +126,10 @@ public class ElasticERL {
         switch(e.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
+                k = smallErl.getNext(key);
                 break;
             case SIZE_MEDIUM:
-                // code block
+                k =mediumErl.nextKey(key);
                 break;
             case SIZE_LARGE:
                 k =largeErl.nextKey(key);
@@ -142,10 +143,10 @@ public class ElasticERL {
         switch(e.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
+                k = smallErl.getPrev(k);
                 break;
             case SIZE_MEDIUM:
-                // code block
+                k = mediumErl.prevKey(key);
                 break;
             case SIZE_LARGE:
                 k = largeErl.prevKey(key);
@@ -155,15 +156,12 @@ public class ElasticERL {
     }
 
     public int[] rangeKey(int key1, int key2){
-        
         switch(this.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
-                break;
+                return smallErl.rangeKey(key1, key2);
             case SIZE_MEDIUM:
-                // code block
-                break;
+                return mediumErl.rangeKey(key1, key2);
             case SIZE_LARGE:
                 return largeErl.rangeKey(key1, key2);
         }
@@ -177,7 +175,7 @@ public class ElasticERL {
                 // code block
                 break;
             case SIZE_MEDIUM:
-                // code block
+                mediumErl.inorder();
                 break;
             case SIZE_LARGE:
                 largeErl.listAll();
