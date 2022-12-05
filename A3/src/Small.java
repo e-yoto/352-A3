@@ -15,9 +15,10 @@ public class Small<Integer, String> extends ElasticERL{
         head = null;
         tail = null;
         this.size = size;
+        
     }
 
-    public int get(int index) 
+    public Node<Integer, String> get(int index) 
     {
         
         Node<Integer, String> current = head;
@@ -27,7 +28,7 @@ public class Small<Integer, String> extends ElasticERL{
             current = current.next;
             i++;
         }
-        return current.key;
+        return current;
     }
 
     public void set(int index, int key, String value) {

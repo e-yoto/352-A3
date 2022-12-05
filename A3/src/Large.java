@@ -269,7 +269,7 @@ public class Large extends ElasticERL {
             int[] a = new int[list.size()];
             for (int i = 0; i < list.size(); i++)
             {
-                a[i] = list.get(i);
+                a[i] = list.get(i).key;
             }
 
             return a;

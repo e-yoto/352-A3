@@ -3,6 +3,7 @@ import java.util.Random;
 public class ElasticERL {
 
     private int size;
+    private int keys[];
     
     private int ERL_TYPE;
     final int SIZE_SMALL = 1;
@@ -10,7 +11,7 @@ public class ElasticERL {
     final int SIZE_LARGE = 3;
 
     Small<Integer, String> smallErl;
-    Medium mediumErl;
+    MediumNew mediumErl;
     Large largeErl;
     
     public ElasticERL(){
@@ -18,6 +19,7 @@ public class ElasticERL {
 
     public ElasticERL(int size){
         SetEINThreshold(size);
+        keys = new int[10000000];
     }
     
     public void SetEINThreshold(int size){
@@ -32,7 +34,7 @@ public class ElasticERL {
         {
             //medium
             ERL_TYPE = SIZE_MEDIUM;
-            mediumErl = new Medium(size);
+            mediumErl = new MediumNew();
         }
         else if (size >= 500000)
         {
@@ -79,7 +81,7 @@ public class ElasticERL {
                 // code block
                 break;
             case SIZE_MEDIUM:
-                // code block
+                mediumErl.insert(key, value);
                 break;
             case SIZE_LARGE:
                 largeErl.add(key, value);
@@ -109,8 +111,8 @@ public class ElasticERL {
                 // code block
                 break;
             case SIZE_MEDIUM:
-                // code block
-                break;
+                //mediumErl.inorder();
+                return mediumErl.search(key);
             case SIZE_LARGE:
                 return largeErl.getValue(key);
         }
