@@ -31,33 +31,35 @@ public class Small<Integer, String> extends ElasticERL{
         return current;
     }
 
-    public int getNext(int index) 
+    public int getNext(int key) 
     {
-        
         Node<Integer, String> current = head;
-        int i = 0;
-        while (i < index)
+        for(int i = 1;i < size; i++)
         {
+            if (current.key == key)
+                return current.next.key;
+
             current = current.next;
-            i++;
         }
-        return current.next.key;
+        
+        return -2;
         
     }
 
-    public int getPrev(int index) 
+    public int getPrev(int key) 
     {
         
         Node<Integer, String> current = head;
         Node<Integer, String> trail = head;
-        int i = 0;
-        while (i < index)
+        for(int i = 1;i < size; i++)
         {
-            trail = current;
+            if (current.key == key)
+                return trail.key;
+
             current = current.next;
-            i++;
         }
-        return trail.key;
+        
+        return -2;
     }
 
     public int[] rangeKey(int k1, int k2)
@@ -245,6 +247,21 @@ public class Small<Integer, String> extends ElasticERL{
             System.out.print(h.key + " - " + h.value + " | ");
             h = h.next;
         }
+    }
+
+    public String getValue(int key)
+    {
+
+        Node<Integer, String> current = head;
+        for(int i = 1;i < size; i++)
+        {
+            if (current.key == key)
+                return current.value;
+
+            current = current.next;
+        }
+        
+        return (String) "String not found";
     }
     
 

@@ -7,7 +7,6 @@ public class Large extends ElasticERL {
 
     
     public Large(int size){
-        super();
         table = new HashNode[size];
         this.size = size;
     }

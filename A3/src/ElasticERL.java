@@ -109,8 +109,7 @@ public class ElasticERL {
         switch(e.ERL_TYPE) 
         {
             case SIZE_SMALL:
-                // code block
-                break;
+                return smallErl.getValue(key);
             case SIZE_MEDIUM:
                 
                 return mediumErl.search(key);

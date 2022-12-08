@@ -19,37 +19,7 @@ public class MediumNew extends ElasticERL{
     public MediumNew(){ 
         root = null; 
     } 
-    //delete a node from BST
-    public void deleteKey(int key) { 
-        root = delete_Recursive(root, key); 
-    } 
-   
-    //recursive delete function
-    public TreeNode delete_Recursive(TreeNode root, int key)  { 
-        //tree is empty
-        if (root == null)  return root; 
-   
-        //traverse the tree
-        if (key < root.key)     //traverse left subtree 
-            root.left = delete_Recursive(root.left, key); 
-        else if (key > root.key)  //traverse right subtree
-            root.right = delete_Recursive(root.right, key); 
-        else  { 
-            // node contains only one child
-            if (root.left == null) 
-                return root.right; 
-            else if (root.right == null) 
-                return root.left; 
-   
-            // node has two children; 
-            //get inorder successor (min value in the right subtree) 
-            root.key = minValue(root.right); 
-   
-            // Delete the inorder successor 
-            root.right = delete_Recursive(root.right, root.key); 
-        } 
-        return root; 
-    } 
+    
    
     public int minValue(TreeNode root)  { 
         //initially minval = root
@@ -123,13 +93,11 @@ public class MediumNew extends ElasticERL{
         if (k1 < k2)
         {
             temp = search_Recursive(root, k1);
-            System.out.println("range " + temp.key);
             return rangeKey_Second(temp, k2);
         }
         else
         {
             temp = search_Recursive(root, k2);
-            System.out.println("range " + temp.key);
             return rangeKey_Second(temp, k1);
         }
 
@@ -139,7 +107,6 @@ public class MediumNew extends ElasticERL{
         
         while (root != null)
         {
-            System.out.println("range currently at " + root.key);
             if (root.key > key) 
             {
                 list.addLast(root.key, root.value);
