@@ -12,24 +12,10 @@ public class MediumNew extends ElasticERL{
         } 
     } 
 
-    // BST root node 
     TreeNode root; 
   
-   // Constructor for BST =>initial empty tree
     public MediumNew(){ 
         root = null; 
-    } 
-    
-   
-    public int minValue(TreeNode root)  { 
-        //initially minval = root
-        int minval = root.key; 
-        //find minval
-        while (root.left != null)  { 
-            minval = root.left.key; 
-            root = root.left; 
-        } 
-        return minval; 
     } 
    
     // insert a node in BST 
@@ -49,7 +35,6 @@ public class MediumNew extends ElasticERL{
             root.left = insert_Recursive(root.left, key, value); 
         else if (key > root.key)    //insert in the right subtree
             root.right = insert_Recursive(root.right, key, value); 
-          // return pointer
         return root; 
     } 
 
@@ -76,7 +61,6 @@ public class MediumNew extends ElasticERL{
         inorder_Recursive(root); 
     }
    
-    // recursively traverse the BST  
     public void inorder_Recursive(TreeNode root) { 
         if (root != null) { 
             inorder_Recursive(root.left); 
@@ -138,7 +122,6 @@ public class MediumNew extends ElasticERL{
    
     //recursive insert function
     public TreeNode search_Recursive(TreeNode root, int key)  { 
-        // Base Cases: root is null or key is present at root 
         if (root==null || root.key==key) 
             return root; 
             
